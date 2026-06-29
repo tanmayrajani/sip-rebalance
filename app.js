@@ -259,12 +259,30 @@ function applySliderMin() {
   const slider = document.getElementById('amountSlider');
   const minLock = Math.max(MIN_AMOUNT, Math.ceil(sumLocked() / STEP) * STEP);
   slider.min = minLock;
+  if (amount > parseInt(slider.max)) slider.max = amount;
   if (amount < minLock) {
     amount = minLock;
     slider.value = amount;
-    document.getElementById('amountDisplay').textContent = '₹' + amount.toLocaleString('en-IN');
+    document.getElementById('amountInput').value = amount.toLocaleString('en-IN');
     saveState();
   }
+}
+
+function commitAmount(raw) {
+  const slider = document.getElementById('amountSlider');
+  const input = document.getElementById('amountInput');
+  const trimmed = String(raw).replace(/,/g, '').trim();
+  let val = Math.round(parseFloat(trimmed));
+  const minLock = Math.max(MIN_AMOUNT, Math.ceil(sumLocked() / STEP) * STEP);
+  if (isNaN(val)) val = amount;
+  val = Math.max(minLock, val);
+  amount = val;
+  slider.min = minLock;
+  if (val > parseInt(slider.max)) slider.max = val;
+  slider.value = amount;
+  input.value = amount.toLocaleString('en-IN');
+  saveState();
+  recalcDerived();
 }
 
 // --- Events ---
@@ -279,10 +297,17 @@ document.getElementById('toggleRow').addEventListener('click', function(e) {
 
 document.getElementById('amountSlider').addEventListener('input', function() {
   amount = parseInt(this.value);
-  document.getElementById('amountDisplay').textContent = '₹' + amount.toLocaleString('en-IN');
+  document.getElementById('amountInput').value = amount.toLocaleString('en-IN');
   saveState();
   recalcDerived();
 });
+
+const amountInput = document.getElementById('amountInput');
+amountInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); commitAmount(this.value); this.blur(); }
+  else if (e.key === 'Escape') { e.preventDefault(); this.value = amount.toLocaleString('en-IN'); this.blur(); }
+});
+amountInput.addEventListener('focusout', function() { commitAmount(this.value); });
 
 document.getElementById('addRowBtn').addEventListener('click', function() {
   categories.push({ name: 'New category', current: 0, target: 0 });
@@ -336,5 +361,5 @@ allocBody.addEventListener('focusout', function(e) {
 document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
 applySliderMin();
 document.getElementById('amountSlider').value = amount;
-document.getElementById('amountDisplay').textContent = '₹' + amount.toLocaleString('en-IN');
+document.getElementById('amountInput').value = amount.toLocaleString('en-IN');
 renderAll();

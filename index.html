@@ -6,7 +6,7 @@
   <p class="section-label">Monthly investment amount</p>
   <div class="amount-row">
     <input type="range" id="amountSlider" min="10000" max="500000" step="5000" value="100000">
-    <span class="amount-display" id="amountDisplay">₹1,00,000</span>
+    <span class="amount-display-wrap">₹<input type="text" inputmode="numeric" class="amount-display amount-input" id="amountInput" value="1,00,000"></span>
   </div>
   <div class="toggle-row" id="toggleRow">
     <button class="toggle-btn active" data-mode="proportional">Proportional to target</button>
