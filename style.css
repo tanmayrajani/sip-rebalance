@@ -26,7 +26,7 @@ html, body { background: var(--color-background-primary); margin: 0; zoom: 1.1; 
 .amount-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
 .amount-row input[type=range] { flex: 1; }
 .amount-display-wrap { font-size: 20px; font-weight: 500; min-width: 110px; text-align: right; color: var(--color-text-primary); }
-.amount-display { width: 90px; font-size: 20px; font-weight: 500; text-align: right; background: none; border: 0.5px solid transparent; border-radius: 4px; color: var(--color-text-primary); padding: 2px 4px; font-family: inherit; font-variant-numeric: tabular-nums; }
+.amount-display { width: 130px; font-size: 20px; font-weight: 500; text-align: right; background: none; border: 0.5px solid transparent; border-radius: 4px; color: var(--color-text-primary); padding: 2px 4px; font-family: inherit; font-variant-numeric: tabular-nums; }
 .amount-display:hover { border-color: var(--color-border-secondary); }
 .amount-display:focus { outline: none; border-color: var(--color-border-primary); background: var(--color-background-secondary); }
 .toggle-row { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
